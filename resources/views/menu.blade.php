@@ -9,32 +9,43 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.topnav {
+.navbar {
   overflow: hidden;
   background-color: #ffffe0;
+
 }
 
-.topnav a {
+.navbar a {
   float: left;
   color: black;
   text-align: right;
   padding: 14px 16px;
   text-decoration: none;
   font-size: 17px;
+  
 }
 
-.topnav a:hover {
+.navbar a:hover {
   background-color: #fff44f;
   color: black;
 }
 
-.topnav a.active {
+.navbar a.active {
   background-color: #FFFF00;
   color: black;
 }
 
-.topnav a.right {
+.navbar a.right {
 	float: right;
+}
+
+.navbar-default .navbar-brand {
+    color: #ffffe0;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: #ffffe0;
+
 }
 
 		/* Style the side navigation bar */
@@ -45,10 +56,14 @@ body {
     z-index: 1;
     top: 60px; /* set top position to account for the height of the top navigation bar */
     left: 0;
+    bottom: 0;
     background-color: #ffffe0;
     overflow-x: hidden;
     padding-top: 20px;
     overflow-y: scroll; /*This one is to enable scroll ability*/
+    z-index: 100;
+    padding: 48px 0 0; /* Height of navbar */
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
   }
 
   .sidenav a {
@@ -103,51 +118,43 @@ body {
 </head>
 <body>
 
-<div class="topnav">
-  <a href="home"><i class="material-icons">home</i>Home</a>
-  <a class="active" href="#menu"><i class="material-icons">menu</i>Menu</a>
-  <a href="activity"><i class="material-icons">manage_search</i>Activity</a>
-  <a href="account"><i class="material-icons">man</i>Account</a>
-  <a class="right" href="#cart"><i class="material-icons">shopping_cart</i>Cart</a>
-</div>
+<nav class="navbar navbar-default navbar-fixed-top fixed-top">
+  <div class="navbar">
+    <a href="home"><i class="material-icons">home</i>Home</a>
+    <a class="active" href="#menu"><i class="material-icons">menu</i>Menu</a>
+    <a href="activity"><i class="material-icons">manage_search</i>Activity</a>
+    <a href="account"><i class="material-icons">man</i>Account</a>
+    <a class="right" href="#cart"><i class="material-icons">shopping_cart</i>Cart</a>
+  </div>
+</nav>
 
 <div class="sidenav">
   <a href="#about">About</a>
   <a href="#services">Services</a>
   <a href="#clients">Clients</a>
   <a href="#contact">Contact</a>
-    <a href="#about">About</a>
-  <a href="#services">Services</a>
-  <a href="#clients">Clients</a>
-  <a href="#contact">Contact</a>
-    <a href="#about">About</a>
-  <a href="#services">Services</a>
-  <a href="#clients">Clients</a>
-  <a href="#contact">Contact</a>
-  <a href="#about">About</a>
-  <a href="#services">Services</a>
-  <a href="#clients">Clients</a>
-  <a href="#contact">Contact</a>
 </div>
 
-<div class="fixed-div" style="margin-left:200px; padding:20px;" onclick="location.href='http://www.example.com';">
+<div class="row">
+    @foreach ($items as $item)
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
 
-<table border="1">
-    <tr>
-        <td>Name</td>
-        <td>Description</td>
-        <td>Price(RM)</td>
-    </tr>
-    @foreach($items as $item)
-    <tr>
-        <td>{{ $item->item_name }}</td>
-        <td>{{ $item->item_description }}</td>
-        <td>{{ $item->item_price }}</td>
-    </tr>
+                <div class="card-body">
+                    <h5 class="card-title">{{ $item->item_name }}</h5>
+                    <p class="card-text">{{ $item->item_price }}</p>
+
+                </div>
+            </div>
+        </div>
     @endforeach
-</table>
 </div>
 
 
 </body>
 </html>
+
+
+
+
+

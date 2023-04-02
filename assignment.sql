@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `item_table` (
 -- Dumping data for table `item_table`
 --
 
-INSERT INTO `item_table` (`id`, `item_name`, `item_description`, `category_id`, `item_price`, `availability`) VALUES
+INSERT INTO `drink_menu` (`id`, `drink_name`, `drink_description`, `category_id`, `price`, `amount`) VALUES
 (1, 'Beng Beng Milk Tea', 'Beng Beng Milk Tea with Brown Sugar Warm Pearls', 1, 8.11, 1),
 (2, 'Beng Beng Fresh Milk', 'Beng Beng Fresh Milk with Brown Sugar Warm Pearls', 1, 8.11, 1),
 (3, 'Beng Beng Chocolate', 'Beng Beng Chocolate with Brown Sugar Warm Pearls.', 1, 9.06, 1),
