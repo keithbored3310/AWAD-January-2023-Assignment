@@ -132,7 +132,20 @@ body {
 
 <div class="fixed-div" style="margin-left:200px; padding:20px;" onclick="location.href='http://www.example.com';">
 
-    <p>Testing</p>
+<table border="1">
+    <tr>
+        <td>Name</td>
+        <td>Description</td>
+        <td>Price(RM)</td>
+    </tr>
+    @foreach($items as $item)
+    <tr>
+        <td>{{ $item->item_name }}</td>
+        <td>{{ $item->item_description }}</td>
+        <td>{{ $item->item_price }}</td>
+    </tr>
+    @endforeach
+</table>
 </div>
 
 

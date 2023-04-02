@@ -22,6 +22,8 @@ Route::get('/home', [UserController::class, 'showHome']);
 Route::get('/menu', [UserController::class, 'showMenu']);
 Route::get('/activity', [UserController::class, 'showActivity']);
 Route::get('/account', [UserController::class, 'showAccount']);
+Route::get("datatest", [UserController::class, 'dataest']);
+Route::get('/item',[UserController::class,'index']);
 ///
 // Route::get('/detail_form', [UserController::class, 'detail_form']);
 // Route::post('/detail_form', [UserController::class, 'addToCart']);
