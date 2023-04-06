@@ -3,17 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Exports\UsersExport;
-use App\Imports\UsersImport;
 use Illuminate\Http\Request;
+use App\Rules\MatchOldPassword;
 use Illuminate\Support\Facades\DB;
-use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Hash;
-use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Http;
 
-class AdminController extends Controller
+class UserController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -23,218 +19,95 @@ class AdminController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index']]);
-        $this->middleware('permission:user-create', ['only' => ['create','store', 'updateStatus']]);
-        $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
-        $this->middleware('permission:user-delete', ['only' => ['delete']]);
     }
 
-
     /**
-     * List User 
-     * @param Nill
-     * @return Array $user
-     * @author Shani Singh
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
     {
-        $users = User::with('roles')->paginate(10);
-        return view('users.index', ['users' => $users]);
+        return view('home');
     }
-    
+
     /**
-     * Create User 
+     * User Profile
      * @param Nill
-     * @return Array $user
+     * @return View Profile
      * @author Shani Singh
      */
-    public function create()
+    public function getProfile()
     {
-        $roles = Role::all();
-       
-        return view('users.add', ['roles' => $roles]);
+        return view('profile');
     }
 
     /**
-     * Store User
-     * @param Request $request
-     * @return View Users
+     * Update Profile
+     * @param $profileData
+     * @return Boolean With Success Message
      * @author Shani Singh
      */
-    public function store(Request $request)
-{
-    // Validations
-    $request->validate([
-        'first_name'    => 'required',
-        'last_name'     => 'required',
-        'email'         => 'required|unique:users,email',
-        'mobile_number' => 'required|numeric|digits:10',
-        'role_id'       =>  'required|exists:roles,id',
-        'status'        =>  'required|numeric|in:0,1',
-        'password'      =>  'required|min:8', // add validation for password
-    ]);
-
-    DB::beginTransaction();
-    try {
-
-        // Store Data
-        $user = User::create([
-            'first_name'    => $request->first_name,
-            'last_name'     => $request->last_name,
-            'email'         => $request->email,
-            'mobile_number' => $request->mobile_number,
-            'role_id'       => $request->role_id,
-            'status'        => $request->status,
-            'password'      => Hash::make($request->password) // set password column value
-        ]);
-
-        // Delete Any Existing Role
-        DB::table('model_has_roles')->where('model_id',$user->id)->delete();
-        
-        // Assign Role To User
-        $user->assignRole($user->role_id);
-
-        // Commit And Redirected To Listing
-        DB::commit();
-        return redirect()->route('users.index')->with('success','User Created Successfully.');
-
-    } catch (\Throwable $th) {
-        // Rollback and return with Error
-        DB::rollBack();
-        return redirect()->back()->withInput()->with('error', $th->getMessage());
-    }
-}
-
-
-    /**
-     * Update Status Of User
-     * @param Integer $status
-     * @return List Page With Success
-     * @author Shani Singh
-     */
-    public function updateStatus($user_id, $status)
+    public function updateProfile(Request $request)
     {
-        // Validation
-        $validate = Validator::make([
-            'user_id'   => $user_id,
-            'status'    => $status
-        ], [
-            'user_id'   =>  'required|exists:users,id',
-            'status'    =>  'required|in:0,1',
+        #Validations
+        $request->validate([
+            'first_name'    => 'required',
+            'last_name'     => 'required',
+            'mobile_number' => 'required|numeric|digits:10',
         ]);
 
-        // If Validations Fails
-        if($validate->fails()){
-            return redirect()->route('users.index')->with('error', $validate->errors()->first());
+        try {
+            DB::beginTransaction();
+            
+            #Update Profile Data
+            User::whereId(auth()->user()->id)->update([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'mobile_number' => $request->mobile_number,
+            ]);
+
+            #Commit Transaction
+            DB::commit();
+
+            #Return To Profile page with success
+            return back()->with('success', 'Profile Updated Successfully.');
+            
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return back()->with('error', $th->getMessage());
         }
+    }
+
+    /**
+     * Change Password
+     * @param Old Password, New Password, Confirm New Password
+     * @return Boolean With Success Message
+     * @author Shani Singh
+     */
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => ['required', new MatchOldPassword],
+            'new_password' => ['required'],
+            'new_confirm_password' => ['same:new_password'],
+        ]);
 
         try {
             DB::beginTransaction();
 
-            // Update Status
-            User::whereId($user_id)->update(['status' => $status]);
-
-            // Commit And Redirect on index with Success Message
-            DB::commit();
-            return redirect()->route('users.index')->with('success','User Status Updated Successfully!');
-        } catch (\Throwable $th) {
-
-            // Rollback & Return Error Message
-            DB::rollBack();
-            return redirect()->back()->with('error', $th->getMessage());
-        }
-    }
-
-    /**
-     * Edit User
-     * @param Integer $user
-     * @return Collection $user
-     * @author Shani Singh
-     */
-    public function edit(User $user)
-    {
-        $roles = Role::all();
-        return view('users.edit')->with([
-            'roles' => $roles,
-            'user'  => $user
-        ]);
-    }
-
-    /**
-     * Update User
-     * @param Request $request, User $user
-     * @return View Users
-     * @author Shani Singh
-     */
-    public function update(Request $request, User $user)
-    {
-        // Validations
-        $request->validate([
-            'first_name'    => 'required',
-            'last_name'     => 'required',
-            'email'         => 'required|unique:users,email,'.$user->id.',id',
-            'mobile_number' => 'required|numeric|digits:10',
-            'role_id'       =>  'required|exists:roles,id',
-            'status'       =>  'required|numeric|in:0,1',
-        ]);
-
-        DB::beginTransaction();
-        try {
-
-            // Store Data
-            $user_updated = User::whereId($user->id)->update([
-                'first_name'    => $request->first_name,
-                'last_name'     => $request->last_name,
-                'email'         => $request->email,
-                'mobile_number' => $request->mobile_number,
-                'role_id'       => $request->role_id,
-                'status'        => $request->status,
-            ]);
-
-            // Delete Any Existing Role
-            DB::table('model_has_roles')->where('model_id',$user->id)->delete();
+            #Update Password
+            User::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password)]);
             
-            // Assign Role To User
-            $user->assignRole($user->role_id);
-
-            // Commit And Redirected To Listing
+            #Commit Transaction
             DB::commit();
-            return redirect()->route('users.index')->with('success','User Updated Successfully.');
 
-        } catch (\Throwable $th) {
-            // Rollback and return with Error
-            DB::rollBack();
-            return redirect()->back()->withInput()->with('error', $th->getMessage());
-        }
-    }
-
-    /**
-     * Delete User
-     * @param User $user
-     * @return Index Users
-     * @author Shani Singh
-     */
-    public function delete(User $user)
-    {
-        DB::beginTransaction();
-        try {
-            // Delete User
-            User::whereId($user->id)->delete();
-
-            DB::commit();
-            return redirect()->route('users.index')->with('success', 'User Deleted Successfully!.');
-
+            #Return To Profile page with success
+            return back()->with('success', 'Password Changed Successfully.');
+            
         } catch (\Throwable $th) {
             DB::rollBack();
-            return redirect()->back()->with('error', $th->getMessage());
+            return back()->with('error', $th->getMessage());
         }
     }
-
-  
-
-    public function export() 
-    {
-        return Excel::download(new UsersExport, 'users.xlsx');
-    }
-
 }
