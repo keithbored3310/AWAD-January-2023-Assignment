@@ -1,7 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OrderInsertController;
+use App\Http\Controllers\OrderViewController;
+use App\Http\Controllers\OrderUpdateController;
+use App\Http\Controllers\OrderDeleteController;
 
 /*
 |--------------------------------------------------------------------------
@@ -9,22 +15,63 @@ use App\Http\Controllers\UserController;
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
 |
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
-Route::get('/home', [UserController::class, 'showHome']);
-Route::get('/menu', [UserController::class, 'showMenu']);
-Route::get('/activity', [UserController::class, 'showActivity']);
-Route::get('/account', [UserController::class, 'showAccount']);
-Route::get("datatest", [UserController::class, 'dataest']);
-Route::get('/item',[UserController::class,'index']);
-///
-// Route::get('/detail_form', [UserController::class, 'detail_form']);
-// Route::post('/detail_form', [UserController::class, 'addToCart']);
+Auth::routes(['register' => false]);
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// Profile Routes
+Route::prefix('profile')->name('profile.')->middleware('auth')->group(function(){
+    Route::get('/', [HomeController::class, 'getProfile'])->name('detail');
+    Route::post('/update', [HomeController::class, 'updateProfile'])->name('update');
+    Route::post('/change-password', [HomeController::class, 'changePassword'])->name('change-password');
+});
+
+// Roles
+Route::resource('roles', App\Http\Controllers\RolesController::class);
+
+// Permissions
+Route::resource('permissions', App\Http\Controllers\PermissionsController::class);
+
+// Users 
+Route::middleware('auth')->prefix('users')->name('users.')->group(function(){
+    Route::get('/', [UserController::class, 'index'])->name('index');
+    Route::get('/create', [UserController::class, 'create'])->name('create');
+    Route::post('/store', [UserController::class, 'store'])->name('store');
+    Route::get('/edit/{user}', [UserController::class, 'edit'])->name('edit');
+    Route::put('/update/{user}', [UserController::class, 'update'])->name('update');
+    Route::delete('/delete/{user}', [UserController::class, 'delete'])->name('destroy');
+    Route::get('/update/status/{user_id}/{status}', [UserController::class, 'updateStatus'])->name('status');
+
+    
+    Route::get('/import-users', [UserController::class, 'importUsers'])->name('import');
+    Route::post('/upload-users', [UserController::class, 'uploadUsers'])->name('upload');
+
+    Route::get('export/', [UserController::class, 'export'])->name('export');
+
+});
+
+Route::get('/insert', [orderInsertController::class, 'insertform']);
+Route::post('/create', [OrderInsertController::class, 'insert']);
+Route::get('/main',[OrderViewController::class,'index']);
+Route::get('/edit-records',[OrderUpdateController::class,'index']);
+Route::get('/edit/{id}',[OrderUpdateController::class,'show']);
+Route::post('/edit/{id}',[OrderUpdateController::class,'edit']);
+Route::get('/delete-records',[OrderDeleteController::class,'index']);
+Route::get('/delete/{id}',[OrderDeleteController::class,'destroy']);
+
+Route::put('/orders/{id}', [OrderViewController::class, 'complete'])->name('orders.update');
+Route::put('/orders/{order}/pending', [OrderViewController::class, 'markPending'])->name('orders.pending');
+
+Route::put('/orders/{id}/paid', [OrderViewController::class, 'markPaid'])->name('orders.paid');
+Route::put('/orders/{id}/unpaid',[OrderViewController::class, 'unpaid'])->name('orders.unpaid');
+
 
