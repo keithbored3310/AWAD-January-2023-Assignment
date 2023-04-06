@@ -13,7 +13,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 
-class UserController extends Controller
+class AdminController extends Controller
 {
     /**
      * Create a new controller instance.
