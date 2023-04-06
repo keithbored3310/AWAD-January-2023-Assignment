@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Drink;
+use App\Models\Menu;
 
-class DrinkCategory extends Model
+class Category extends Model
 {
     use HasFactory;
-    public function getDrinkCategory(){
-        return $this->hasOne(DrinkCategory::class);
+    public function getMenuMany(){
+        return $this->hasMany(Category::class);
     }
 }
