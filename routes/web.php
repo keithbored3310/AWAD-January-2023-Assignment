@@ -74,4 +74,10 @@ Route::put('/orders/{order}/pending', [OrderViewController::class, 'markPending'
 Route::put('/orders/{id}/paid', [OrderViewController::class, 'markPaid'])->name('orders.paid');
 Route::put('/orders/{id}/unpaid',[OrderViewController::class, 'unpaid'])->name('orders.unpaid');
 
+Route::get('/menu',function(){return view("showMenu");})->name("showMenu");
+Route::get('/cart',function(){return view("showCart");})->name("showCart");
+Route::get('/history',function(){return view("showHistory");})->name("showHistory");
+Route::get('/news',function(){return view("showNews");})->name("showNews");
+
+
 
