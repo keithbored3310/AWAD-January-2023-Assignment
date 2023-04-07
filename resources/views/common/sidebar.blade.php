@@ -94,28 +94,6 @@
         <hr class="sidebar-divider d-none d-md-block">
     @endhasrole
 
- <!-- Nav Item - Drink Menu -->
-    <li class="nav-item active">
-        <a class="nav-link" href="{{ route('showMenu') }}">
-        <i class="fa fa-mug-hot"></i>
-            <span>Menu</span></a>
-    </li>
-    <li class="nav-item active">
-        <a class="nav-link" href="{{ route('showCart') }}">
-        <i class="fas fa-shopping-basket"></i>
-            <span>Cart</span></a>
-    </li>
-    <li class="nav-item active">
-        <a class="nav-link" href="{{ route('showHistory') }}">
-        <i class="fa fa-clipboard"></i>
-            <span>Order History</span></a>
-    </li>
-    <li class="nav-item active">
-        <a class="nav-link" href="{{ route('showNews') }}">
-        <i class="fa fa-newspaper"></i>
-            <span>News</span></a>
-    </li>
-
    
     <!-- Sidebar Toggler (Sidebar) -->
     <div class="text-center d-none d-md-inline">
