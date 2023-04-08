@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
+    
     /**
      * The policy mappings for the application.
      *
@@ -14,7 +15,9 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        
     ];
+
 
     /**
      * Register any authentication / authorization services.
@@ -24,7 +27,12 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
-
+        Gate::define('view-user-list', function ($user) {
+            return !$user->hasPermissionTo('user-list');
+        });
+      
+    
+        
         //
     }
 }
