@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Gate;
 
 class AdminController extends Controller
 {
@@ -29,6 +30,7 @@ class AdminController extends Controller
         $this->middleware('permission:user-delete', ['only' => ['delete']]);
     }
 
+    
 
     /**
      * List User 
@@ -37,10 +39,15 @@ class AdminController extends Controller
      * @author Shani Singh
      */
     public function index()
-    {
-        $users = User::with('roles')->paginate(10);
-        return view('users.index', ['users' => $users]);
+{
+    if (Gate::denies('view-user-list')) {
+       abort(403);
     }
+   
+    $users = User::with('roles')->paginate(10);
+    return view('users.index', ['users' => $users]);
+}
+
     
     /**
      * Create User 
@@ -50,6 +57,7 @@ class AdminController extends Controller
      */
     public function create()
     {
+       
         $roles = Role::all();
        
         return view('users.add', ['roles' => $roles]);

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Menu;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Gate;
 class HomeController extends Controller
 {
     /**
@@ -34,7 +34,8 @@ class HomeController extends Controller
 
     public function showMenu()
     {
-
+    
+       
         $menu = Menu::get();
         // dd($menu);
         return view('showMenu')->with('menu', $menu);

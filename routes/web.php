@@ -60,6 +60,19 @@ Route::resource('roles', App\Http\Controllers\RolesController::class);
 // Permissions
 Route::resource('permissions', App\Http\Controllers\PermissionsController::class);
 
+
+/*Route::middleware('can:access-admin')->prefix('users')->name('users.')->group(function(){
+    Route::get('/', [AdminController::class, 'index'])->name('index');
+    Route::get('/create', [AdminController::class, 'create'])->name('create');
+    Route::post('/store', [AdminController::class, 'store'])->name('store');
+    Route::get('/edit/{user}', [AdminController::class, 'edit'])->name('edit');
+    Route::put('/update/{user}', [AdminController::class, 'update'])->name('update');
+    Route::delete('/delete/{user}', [AdminController::class, 'delete'])->name('destroy');
+    Route::get('/update/status/{user_id}/{status}', [AdminController::class, 'updateStatus'])->name('status');
+
+    // your other routes here
+});*/
+
 // Users
 Route::middleware('auth')->prefix('users')->name('users.')->group(function(){
     Route::get('/', [AdminController::class, 'index'])->name('index');
@@ -77,6 +90,7 @@ Route::middleware('auth')->prefix('users')->name('users.')->group(function(){
     Route::get('export/', [AdminController::class, 'export'])->name('export');
 
 });
+
 
 Route::get('/insert', [orderInsertController::class, 'insertform']);
 Route::post('/create', [OrderInsertController::class, 'insert']);
