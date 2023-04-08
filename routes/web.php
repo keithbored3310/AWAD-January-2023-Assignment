@@ -29,6 +29,8 @@ Route::get('/', function () {
 
 Auth::routes(['register' => false]);
 
+Route::get('/home', [App\Http\Controllers\UserController::class, 'index'])->name('home');
+
 //YS from here ->
 // HomeController
 Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');

@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateBobaorderTable extends Migration
 {
-    /**
+     /**
      * Run the migrations.
      *
      * @return void
@@ -17,6 +17,11 @@ class CreateBobaorderTable extends Migration
             $table->id();
             $table->string('name');
             $table->date('date');
+            $table->string('status')->default('pending');
+            $table->float('amount')->nullable();
+            $table->timestamps();
+            $table->dateTime('date')->nullable()->change();
+        
         });
     }
 
