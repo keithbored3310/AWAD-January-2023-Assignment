@@ -8,6 +8,9 @@ use App\Http\Controllers\OrderInsertController;
 use App\Http\Controllers\OrderViewController;
 use App\Http\Controllers\OrderUpdateController;
 use App\Http\Controllers\OrderDeleteController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +29,21 @@ Route::get('/', function () {
 
 Auth::routes(['register' => false]);
 
-Route::get('/home', [App\Http\Controllers\UserController::class, 'index'])->name('home');
+//YS from here ->
+// HomeController
+Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
+Route::get('/news', [HomeController::class, 'showNews'])->name('showNews');
+Route::get('/menu', [HomeController::class, 'showMenu'])->name('showMenu');
+Route::post('/menu', [HomeController::class, 'filterCategory'])->name('filterCategory');
+
+//OrderController
+Route::get('/cart/{id}', [OrderController::class, 'showCart'])->name('showCart');
+Route::get('/history/{id}', [OrderController::class, 'showHistory'])->name('showHistory');
+Route::post('/addCart/{id}', [OrderController::class, 'addToCart'])->name('addToCart');
+Route::post('/updateCart/{id}', [OrderController::class, 'updateCart'])->name('updateCart');
+Route::post('/checkout/{id}', [OrderController::class, 'checkout'])->name('checkout');
+
+// <-- YS to here
 
 // Profile Routes
 Route::prefix('profile')->name('profile.')->middleware('auth')->group(function(){
@@ -41,7 +58,7 @@ Route::resource('roles', App\Http\Controllers\RolesController::class);
 // Permissions
 Route::resource('permissions', App\Http\Controllers\PermissionsController::class);
 
-// Users 
+// Users
 Route::middleware('auth')->prefix('users')->name('users.')->group(function(){
     Route::get('/', [AdminController::class, 'index'])->name('index');
     Route::get('/create', [AdminController::class, 'create'])->name('create');
@@ -51,7 +68,7 @@ Route::middleware('auth')->prefix('users')->name('users.')->group(function(){
     Route::delete('/delete/{user}', [AdminController::class, 'delete'])->name('destroy');
     Route::get('/update/status/{user_id}/{status}', [AdminController::class, 'updateStatus'])->name('status');
 
-    
+
     Route::get('/import-users', [AdminController::class, 'importUsers'])->name('import');
     Route::post('/upload-users', [AdminController::class, 'uploadUsers'])->name('upload');
 
@@ -74,10 +91,8 @@ Route::put('/orders/{order}/pending', [OrderViewController::class, 'markPending'
 Route::put('/orders/{id}/paid', [OrderViewController::class, 'markPaid'])->name('orders.paid');
 Route::put('/orders/{id}/unpaid',[OrderViewController::class, 'unpaid'])->name('orders.unpaid');
 
-Route::get('/menu',function(){return view("showMenu");})->name("showMenu");
-Route::get('/cart',function(){return view("showCart");})->name("showCart");
-Route::get('/history',function(){return view("showHistory");})->name("showHistory");
-Route::get('/news',function(){return view("showNews");})->name("showNews");
+
+
 
 
 

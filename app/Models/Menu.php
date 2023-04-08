@@ -10,10 +10,18 @@ use App\Models\Cart;
 class Menu extends Model
 {
     use HasFactory;
+    protected $table = 'menu';
+
+    public $primaryKey = 'id';
+
+    // protected $keyType = 'string';
+
+    public $timestamps = true;
+
     public function getCategory(){
-        return $this->hasOne(Menu::class);
+        return $this->hasOne(Category::class);
     }
     public function getCartMany(){
-        return $this->belongsToMany(Menu::class);
+        return $this->belongsToMany(Cart::class);
     }
 }
