@@ -36,6 +36,7 @@ class HomeController extends Controller
     {
 
         $menu = Menu::get();
+        // dd($menu);
         return view('showMenu')->with('menu', $menu);
     }
 
