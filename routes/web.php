@@ -112,7 +112,7 @@ Route::put('/orders/{id}/unpaid',[OrderViewController::class, 'unpaid'])->name('
 Route::group(['middleware' => 'can:isAdmin'], function(){
     Route::view('/add', 'permissions.add');
     Route::view('/edit', 'permissions.edit');
-    Route::veiw('/index', 'permissions.index');
+    Route::view('/index', 'permissions.index');
 });
 
 
