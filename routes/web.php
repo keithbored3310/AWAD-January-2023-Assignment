@@ -35,8 +35,9 @@ Route::get('/home', [App\Http\Controllers\UserController::class, 'index'])->name
 // HomeController
 Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
 Route::get('/news', [HomeController::class, 'showNews'])->name('showNews');
-Route::get('/menu/{id}', [HomeController::class, 'showMenu'])->name('showMenu');
-Route::post('/menu', [HomeController::class, 'filterCategory'])->name('filterCategory');
+Route::get('/menu/{id}/{category_id?}', [HomeController::class, 'showMenu'])->name('showMenu');
+
+// Route::post('/menu', [HomeController::class, 'filterCategory'])->name('filterCategory');
 
 //OrderController
 Route::get('/cart/{id}', [OrderController::class, 'showCart'])->name('showCart');

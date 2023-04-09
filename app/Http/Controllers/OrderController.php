@@ -27,27 +27,29 @@ class OrderController extends Controller
     public function addToCart(Request $request,$id)
     {
         // dd($request);
-        $item = Menu::find($request->id);
+        $item = Menu::find($request->item_id);
         $cart = Cart::where('user_id', $id)->where('status', 'pending')->first();
 
         //items array
         $array = array(
-            "id"=>$item->id,
-            "name"=>$item->name,
-            "description"=>$item->description,
-            "category_id" =>$item->category_id,
-            "price" =>$item->price,
-            "quantity" =>$request->quantity,
+            "id"=> $item->id,
+            "name"=> $item->name,
+            "description"=> $item->description,
+            "category_id" => $item->category_id,
+            "price" => $item->price,
+            "quantity" => $request->quantity,
+            "images" => $item->images,
         );
+        $price = $item->price * $request->quantity;
 
         if($cart == null)
         {
-           
+
             $cart = new Cart;
             $json_result = array($array);
-            // array_push($array, $json_result);
             $cart->items = json_encode($json_result);
             $cart->status = 'pending';
+            $cart->amount = $price;
             $cart->user_id = $id;
         }
         else
@@ -58,7 +60,8 @@ class OrderController extends Controller
             {
                 if($i->id == $item->id)
                 {
-                    $i->quantity = $i->quantity + $request->quantity;
+                    $cart->amount = $cart->amount - ($i->price * $i->quantity) + $price;
+                    $i->quantity = $request->quantity;
                     $exists = 1;
                     break;
                 }
@@ -69,16 +72,15 @@ class OrderController extends Controller
             }
             $cart->items = json_encode($item_list);
         }
-        $cart->amount = $cart->amount+ $item->price * $request->quantity;
         $cart->save();
 
-        return redirect()->back();
+        return redirect()->route('showMenu',['id'=>auth()->user()->id]);
     }
 
-    public function updateCart()
-    {
+    // public function updateCart()
+    // {
 
-    }
+    // }
 
     public function checkout($id)
     {
@@ -93,7 +95,7 @@ class OrderController extends Controller
         $cart->status = 'complete';
         $cart->order_id = $order->id;
         $cart->save();
-       
+
         return redirect()->route('showHistory');
     }
 

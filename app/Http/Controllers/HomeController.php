@@ -37,25 +37,34 @@ class HomeController extends Controller
         return view('showNews');
     }
 
-    public function showMenu($id)
+    public function showMenu($id, $category_id = null)
     {
-        $menu = Menu::get();
+        if($category_id == null)
+        {
+            $menu = Menu::get();
+        }
+        else
+        {
+            $menu = Menu::where('category_id', $category_id)->get();
+        }
+        // dd($menu);
         $category=Category::get();
         $cart = Cart::where('user_id', $id)->where('status', 'pending')->first();
         // $cart = Cart::where('user_id', $id)->where('status', 'pending')->first();
         // dd($cart);
-        return view('showMenu')->with('menu', $menu)->with('category',$category)->with('cart',$cart);
+        return view('showMenu', ['id'=>auth()->user()->id])->with('menu', $menu)->with('category',$category)->with('cart',$cart);
     }
 
-    public function filterCategory(Request $request)
-    {
-        // dd($request);
-        $menu = Menu::where('category_id', $request->category_id)->get();
-        $category=Category::get();
-        $id=Auth::id();
-        $cart = Cart::where('user_id', $id)->where('status', 'pending')->first();
-        return view('showMenu',['id'=> $id])->with('menu', $menu)->with('category',$category)->with('cart',$cart);
-    }
+    // public function filterCategory(Request $request)
+    // {
+    //     // dd($request);
+    //     // if($)
+    //     $menu = Menu::where('category_id', $request->category_id)->get();
+    //     $category=Category::get();
+    //     $id=auth()->user()->id;
+    //     $cart = Cart::where('user_id', $id)->where('status', 'pending')->first();
+    //     return view('showMenu',)->with('menu', $menu)->with('category',$category)->with('cart',$cart);
+    // }
 
     public function show($id)
     {
