@@ -31,7 +31,15 @@ class AuthServiceProvider extends ServiceProvider
             return !$user->hasPermissionTo('user-list');
         });
       
-    
+        /* define an admin */
+        Gate::define('isAdmin', function($user){
+            return $user->role_id =='1';
+        });
+
+        /* define a user */
+        Gate::define('isUser', function($user){
+            return $user->role_id =='2';
+        });
         
         //
     }
