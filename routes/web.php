@@ -108,7 +108,12 @@ Route::put('/orders/{order}/pending', [OrderViewController::class, 'markPending'
 Route::put('/orders/{id}/paid', [OrderViewController::class, 'markPaid'])->name('orders.paid');
 Route::put('/orders/{id}/unpaid',[OrderViewController::class, 'unpaid'])->name('orders.unpaid');
 
-
+//Restriction for users to view dashboard, master and user management page
+Route::group(['middleware' => 'can:isAdmin'], function(){
+    Route::view('/add', 'permissions.add');
+    Route::view('/edit', 'permissions.edit');
+    Route::veiw('/index', 'permissions.index');
+});
 
 
 
