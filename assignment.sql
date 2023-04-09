@@ -66,11 +66,7 @@ CREATE TABLE IF NOT EXISTS `item_table` (
 -- Dumping data for table `item_table`
 --
 
-INSERT INTO `drink_menu` (`id`, `drink_name`, `drink_description`, `category_id`, `price`, `amount`) VALUES
-(1, 'Beng Beng Milk Tea', 'Beng Beng Milk Tea with Brown Sugar Warm Pearls', 1, 8.11, 1),
-(2, 'Beng Beng Fresh Milk', 'Beng Beng Fresh Milk with Brown Sugar Warm Pearls', 1, 8.11, 1),
-(3, 'Beng Beng Chocolate', 'Beng Beng Chocolate with Brown Sugar Warm Pearls.', 1, 9.06, 1),
-(4, 'Beng Beng Coffee', 'Beng Beng Coffee with Brown Sugar Warm Pearls', 1, 11.32, 1),
+INSERT INTO `menu` (`id`, `name`, `description`, `category_id`, `price`, `quantity`) VALUES
 (5, 'Signature Coco', 'Superior indeed, thick fresh cream is added to rich cocoa, making this concoction one of the most de', 2, 7.17, 1),
 (7, 'Hazelnut Coco', 'Nothing quite as heart-warming as thick cocoa mixed with the flavors of roasted hazelnuts. Definitel', 2, 7.26, 1),
 (8, 'Coco Latte', 'find your balance with this Yin & Yang concoction that will get you shaking and stirring. ', 2, 7.64, 1),

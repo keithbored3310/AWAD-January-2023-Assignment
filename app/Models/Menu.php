@@ -24,4 +24,8 @@ class Menu extends Model
     public function getCartMany(){
         return $this->belongsToMany(Cart::class);
     }
+
+    protected $fillable = [
+        'name', 'description', 'price', 'images'
+    ];
 }

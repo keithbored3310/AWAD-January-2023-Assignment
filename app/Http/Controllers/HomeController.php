@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Menu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Storage;
+
 class HomeController extends Controller
 {
     /**
@@ -47,4 +49,13 @@ class HomeController extends Controller
         $menu = Menu::where('category_id', $request->category_id)->get();
         return view('showMenu')->with('menu', $menu);
     }
+
+    public function show($id)
+    {
+        $menu = Menu::find($id);
+        $imagePath = Storage::disk('local')->url('menu/' . $menu->id . '.jpg');
+
+        return view('menu.show', compact('menu', 'imagePath'));
+    }
+
 }
