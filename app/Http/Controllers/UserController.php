@@ -110,4 +110,53 @@ class UserController extends Controller
             return back()->with('error', $th->getMessage());
         }
     }
+    
+    /**
+     * SignUp
+     * @param first name, last name, email, mobile number ,password of user
+     * @return redirect to login page
+     */
+    public function userSignUp(Request $request)
+    {
+        $request->validate([
+            'first_name'    => 'required | max:20',
+            'last_name'     => 'required | max:20',
+            'email'         => ['required | max:11', 'regex:/^.*(?=\D*\d)[0-9]'],
+            'mobile_number' => 'required | max:20',
+            'password'      => ['required', 'regex:/^.*[A-Za-z0-9!#%]{8,32}$']
+        ]);
+
+        $user = $request->input();
+        $user['role_id'] = 2;
+        $request->session()->flash('user',$user['first_name']);
+
+        $user = new User;
+        $user->first_name = $request->first_name;
+        $user->last_name = $request->last_name;
+        $user->email = $request->email;
+        $user->mobile_number = $request->mobile_number;
+        $user->password = $request->password;
+        $user->role_id = $request->role_id;
+        $user->save();
+
+        return redirect("login");
+    }
+
+    /**
+     * Login
+     * @param first name, email, password of user, password confirmation occurs
+     * @return redirect to home page
+     */
+    public function userLogin(Request $request)
+    {
+        $request->validate([
+            'first_name'    => 'required | max:20',
+            'email'    => 'required | email',
+            'password' => ['required | confirmed', 'regex:/^[A-Za-z0-9!#%]{8,32}$']
+        ]);
+        
+        $username = $request->input('first_name');
+        $request->session->put('first_name', $username);
+        return redirect("home");
+    }
 }
