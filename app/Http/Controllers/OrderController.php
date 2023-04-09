@@ -23,8 +23,9 @@ class OrderController extends Controller
     }
 
     //Add item from menu page
-    public function addToCart(Request $request, $id)
+    public function addToCart(Request $request)
     {
+        dd($request);
         $item = Menu::find($request->id);
         $cart = Cart::where('user_id', $id)->where('status', 'pending')->first();
 
