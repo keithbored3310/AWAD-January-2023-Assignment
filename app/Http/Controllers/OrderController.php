@@ -66,9 +66,11 @@ class OrderController extends Controller
                     break;
                 }
             }
-            if($exists = 0)
+            if($exists == 0)
             {
-                array_push($array, $item_list);
+                $cart->amount = $cart->amount+$price;
+                array_push( $item_list, $array);
+                // dd($item_list,$array);
             }
             $cart->items = json_encode($item_list);
         }
