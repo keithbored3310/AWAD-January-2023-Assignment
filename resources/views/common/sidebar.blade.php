@@ -96,7 +96,7 @@
 
  <!-- Nav Item - Drink Menu -->
     <li class="nav-item active">
-        <a class="nav-link" href="{{ route('showMenu') }}">
+        <a class="nav-link" href="{{ route('showMenu',['id'=>auth()->user()->id])}}">
         <i class="fa fa-mug-hot"></i>
             <span>Menu</span></a>
     </li>

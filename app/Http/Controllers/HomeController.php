@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Menu;
+use App\Models\Cart;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
@@ -34,20 +37,24 @@ class HomeController extends Controller
         return view('showNews');
     }
 
-    public function showMenu()
+    public function showMenu($id)
     {
-    
-       
         $menu = Menu::get();
-        // dd($menu);
-        return view('showMenu')->with('menu', $menu);
+        $category=Category::get();
+        $cart = Cart::where('user_id', $id)->where('status', 'pending')->first();
+        // $cart = Cart::where('user_id', $id)->where('status', 'pending')->first();
+        // dd($cart);
+        return view('showMenu')->with('menu', $menu)->with('category',$category)->with('cart',$cart);
     }
 
     public function filterCategory(Request $request)
     {
         // dd($request);
         $menu = Menu::where('category_id', $request->category_id)->get();
-        return view('showMenu')->with('menu', $menu);
+        $category=Category::get();
+        $id=Auth::id();
+        $cart = Cart::where('user_id', $id)->where('status', 'pending')->first();
+        return view('showMenu',['id'=> $id])->with('menu', $menu)->with('category',$category)->with('cart',$cart);
     }
 
     public function show($id)

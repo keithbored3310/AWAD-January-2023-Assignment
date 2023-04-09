@@ -35,13 +35,13 @@ Route::get('/home', [App\Http\Controllers\UserController::class, 'index'])->name
 // HomeController
 Route::get('/dashboard', [HomeController::class, 'dashboard'])->name('dashboard');
 Route::get('/news', [HomeController::class, 'showNews'])->name('showNews');
-Route::get('/menu', [HomeController::class, 'showMenu'])->name('showMenu');
+Route::get('/menu/{id}', [HomeController::class, 'showMenu'])->name('showMenu');
 Route::post('/menu', [HomeController::class, 'filterCategory'])->name('filterCategory');
 
 //OrderController
 Route::get('/cart/{id}', [OrderController::class, 'showCart'])->name('showCart');
 Route::get('/history/{id}', [OrderController::class, 'showHistory'])->name('showHistory');
-Route::post('/addCart', [OrderController::class, 'addToCart'])->name('addToCart');
+Route::post('/addCart/{id}', [OrderController::class, 'addToCart'])->name('addToCart');
 Route::post('/updateCart/{id}', [OrderController::class, 'updateCart'])->name('updateCart');
 Route::post('/checkout/{id}', [OrderController::class, 'checkout'])->name('checkout');
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\Menu;
 use Illuminate\Http\Request;
 
 
@@ -23,9 +24,9 @@ class OrderController extends Controller
     }
 
     //Add item from menu page
-    public function addToCart(Request $request)
+    public function addToCart(Request $request,$id)
     {
-        dd($request);
+        // dd($request);
         $item = Menu::find($request->id);
         $cart = Cart::where('user_id', $id)->where('status', 'pending')->first();
 
@@ -41,8 +42,11 @@ class OrderController extends Controller
 
         if($cart == null)
         {
+           
             $cart = new Cart;
-            $cart->items = json_encode($array);
+            $json_result = array($array);
+            // array_push($array, $json_result);
+            $cart->items = json_encode($json_result);
             $cart->status = 'pending';
             $cart->user_id = $id;
         }
@@ -52,9 +56,9 @@ class OrderController extends Controller
             $exists = 0;
             foreach($item_list as $i)
             {
-                if($i['id'] == $item)
+                if($i->id == $item->id)
                 {
-                    $i['quantity'] = $i['quantity'] + $request->quantity;
+                    $i->quantity = $i->quantity + $request->quantity;
                     $exists = 1;
                     break;
                 }
@@ -65,7 +69,7 @@ class OrderController extends Controller
             }
             $cart->items = json_encode($item_list);
         }
-        $cart->amount = $item->price * $request->quantity;
+        $cart->amount = $cart->amount+ $item->price * $request->quantity;
         $cart->save();
 
         return redirect()->back();
@@ -85,10 +89,11 @@ class OrderController extends Controller
         $order->status = 'pending';
         $order->amount = $cart->amount;
         $order->user_id = $id;
-
+        $order->save();
         $cart->status = 'complete';
         $cart->order_id = $order->id;
         $cart->save();
+       
         return redirect()->route('showHistory');
     }
 
