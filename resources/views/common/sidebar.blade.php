@@ -101,12 +101,12 @@
             <span>Menu</span></a>
     </li>
     <li class="nav-item active">
-        <a class="nav-link" href="{{ route('showCart') }}">
+        <a class="nav-link" href="{{ route('showCart',['id'=>auth()->user()->id]) }}">
         <i class="fas fa-shopping-basket"></i>
             <span>Cart</span></a>
     </li>
     <li class="nav-item active">
-        <a class="nav-link" href="{{ route('showHistory') }}">
+        <a class="nav-link" href="{{ route('showHistory',['id'=>auth()->user()->id]) }}">
         <i class="fa fa-clipboard"></i>
             <span>Order History</span></a>
     </li>
