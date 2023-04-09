@@ -88,10 +88,11 @@
       })
       //the minus quantity button
       $("#down"+itemID).click(function(){
-        if(total!=0){
+        if(total>0){
           total-=price;
           quant-=1;
-        $("#total"+itemID).html(total.toFixed(2));
+          console.log(total);
+        $("#total"+itemID).html(Math.abs(total).toFixed(2));
         $("#quant"+itemID).html(quant);
         $("#post_quant"+itemID).val(quant);
         }
