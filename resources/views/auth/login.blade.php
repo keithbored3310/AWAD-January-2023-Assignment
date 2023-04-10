@@ -58,6 +58,11 @@
                                 <button class="btn btn-primary btn-user btn-block">
                                     Login
                                 </button>
+                                <a href="{{ route('register') }}">
+                                    <button class="btn btn-primary btn-user btn-block">
+                                        Login
+                                    </button>
+                                </a>
                             </form>
                             <hr>
                             
