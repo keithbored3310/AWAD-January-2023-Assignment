@@ -32,8 +32,8 @@
     <table border="1">
         <tr>
          <td>ID</td>
-         <td>item</td>
-         <td>User_id</td>
+         <td>Items</td>
+         <td>User</td>
          <td>Delete</td>
          <th>Status</th>
          <th>Action</th>
