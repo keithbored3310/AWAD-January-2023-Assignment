@@ -29,7 +29,10 @@ Route::get('/', function () {
 
 Auth::routes(['register' => false]);
 
-Route::view('/register', 'auth.register');
+Route::get('/register', function () {
+    return view('auth.register');
+})->name('register');
+
 
 Route::get('/home', [App\Http\Controllers\UserController::class, 'index'])->name('home');
 
