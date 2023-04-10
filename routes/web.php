@@ -27,7 +27,7 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Auth::routes(['register' => false]);
+Route::get('/register', 'auth.register');
 
 Route::get('/home', [App\Http\Controllers\UserController::class, 'index'])->name('home');
 
