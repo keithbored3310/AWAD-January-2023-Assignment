@@ -65,7 +65,7 @@
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Order Management:</h6>
             <a class="collapse-item" href="/main">Lists</a>
-            <a class="collapse-item" href="/insert">Add New</a>
+           <!-- <a class="collapse-item" href="/insert">Add New</a>-->
         </div>
     </div>
 </li>

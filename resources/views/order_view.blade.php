@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Add Users')
+@section('title', 'Order lists')
 
 @section('content')
 
@@ -32,9 +32,9 @@
     <table border="1">
         <tr>
          <td>ID</td>
-         <td>Name</td>
-         <td>Date</td>
-         <td>operation</td>
+         <td>item</td>
+         <td>User_id</td>
+         <td>Delete</td>
          <th>Status</th>
          <th>Action</th>
          <th>Payment</th>
@@ -45,45 +45,34 @@
         @foreach ($orders as $order)
          <tr>
             <td>{{ $order->id }}</td>
-            <td>{{ $order->name }}</td>
-            <td>{{ $order->date }}</td>
+            <td>{{ $order->items }}</td>
+            <td>{{ $order->user_id }}</td>
             <td>
-                <a href="edit/{{ $order->id }}"class="btn btn-success btn-sm">Update </a>
-                |
+               <!-- <a href="edit/{{ $order->id }}"class="btn btn-success btn-sm">Update </a>-->
+            
                 <a href="delete/{{ $order->id }}"class="btn btn-success btn-sm">Delete</a>
               </td>
             
               <td>
-                                @if ($order->status == 'pending')
-                                <span class="badge badge-danger">{{ ucfirst($order->status) }}</span>
-                                @else
-                                <span class="badge badge-success">{{ ucfirst($order->status) }}</span>
-                                @endif
-                            </td>
-                            <td>
-                                @if ($order->status == 'pending')
-                                <form action="{{ route('orders.update', $order->id) }}" method="POST">
-                                    @csrf
-                                    @method('PUT')
-                                    <button type="submit" class="btn btn-success btn-sm">Complete</button>
-                                </form>
-                                @elseif ($order->status == 'completed')
-                                <form action="{{ route('orders.update', $order->id) }}" method="POST">
-                                    @csrf
-                                    @method('PUT')
-                                    <button type="submit" class="btn btn-secondary btn-sm" disabled>Completed</button>
-                                </form>
-                                @endif
-                                <form action="{{ route('orders.pending', $order->id) }}" method="POST">
-    @csrf
-    @method('PUT')
-    <button type="submit" class="btn btn-warning btn-sm">Mark Pending</button>
-</form>
+    @if ($order->status == 'pending')
+        <span class="badge badge-danger">{{ ucfirst($order->status) }}</span>
+    @else
+        <span class="badge badge-success">{{ ucfirst($order->status) }}</span>
+    @endif
+</td>
+<td>
+    @if ($order->status == 'pending')
+        <form action="{{ route('orders.update', $order->id) }}" method="POST">
+            @csrf
+            @method('PUT')
+            <button type="submit" class="btn btn-success btn-sm">Complete</button>
+        </form>
+    @else
+        <button type="button" class="btn btn-secondary btn-sm" disabled>Completed</button>
+    @endif
+</td>
 
-
-
-                                </td>
-                                <td>
+<td>
     @if (isset($order->paid) && $order->paid)
         <span class="badge badge-success">{{ ucfirst('paid') }}</span>
     @else
@@ -98,12 +87,8 @@
             @method('PUT')
             <button type="submit" class="btn btn-success btn-sm">Paid</button>
         </form>
-    @else
-        <form action="{{ route('orders.unpaid', $order->id) }}" method="POST">
-            @csrf
-            @method('PUT')
-            <button type="submit" class="btn btn-danger btn-sm">Unpaid</button>
-        </form>
+        @else
+        <button type="button" class="btn btn-secondary btn-sm" disabled>Paid</button>
     @endif
 </td>
 

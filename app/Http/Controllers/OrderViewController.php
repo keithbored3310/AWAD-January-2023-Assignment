@@ -12,7 +12,7 @@ class OrderViewController extends Controller
 {
     public function index()
     {
-         $orders = DB::table('bobaorder')->paginate(5);
+         $orders = DB::table('order')->paginate(5);
          return view('order_view', compact('orders'));
     }
 
