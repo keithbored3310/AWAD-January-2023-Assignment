@@ -11,9 +11,17 @@
 
     <div class="mb-3">
         @if(isset($order))
+
         @foreach($order as $ord )
-        <div class="card shadow p-3" style="border-radius: 15px;">
-        <h3 class="text-left ">Order Date : {{$ord->created_at->format('d/m/Y')}}</h3>
+        <div class="card shadow p-3 mb-3" style="border-radius: 15px;"> 
+        <div class="row">
+            <div class="col">
+            <h3 class="float-left ">Order Date : {{$ord->created_at->format('d/m/Y')}}</h3>
+            </div>
+            <div class="col">
+            <h3 class="float-right ">Time : {{$ord->created_at->format('g:i A')}}</h3>
+            </div>
+        </div>    
             @if($ord->items!=null)
             @foreach(json_decode($ord->items) as $item)
             <div class="mb-3">
@@ -37,13 +45,13 @@
                 </div>
             </div>
             @endforeach
-            
+
             <h3 class="text-right mb-3">Total : {{number_format($ord->amount,2)}}</h3>
             <hr>
             @endif
-
-            @endforeach
         </div>
+        @endforeach
+
         @else<div>No Order Made</div>
         @endif
     </div>

@@ -19,7 +19,7 @@ class OrderController extends Controller
 
     public function showHistory($id)
     {
-        $order = Order::where('user_id', $id)->get();
+        $order = Order::where('user_id', $id)->orderBy('created_at','desc')->get();
         return view('showHistory')->with('order', $order);
     }
 
@@ -27,6 +27,18 @@ class OrderController extends Controller
     public function addToCart(Request $request,$id)
     {
         // dd($request);
+        $this->saveitem($request,$id);
+        return redirect()->route('showMenu',['id'=>auth()->user()->id]);
+    }
+
+    public function updateCart(Request $request,$id)
+    {
+        // dd($request);
+        $this->saveitem($request,$id);
+        return redirect()->route('showCart',['id'=>auth()->user()->id]);
+    }
+
+    private function saveitem($request,$id){
         $item = Menu::find($request->item_id);
         $cart = Cart::where('user_id', $id)->where('status', 'pending')->first();
 
@@ -75,14 +87,7 @@ class OrderController extends Controller
             $cart->items = json_encode($item_list);
         }
         $cart->save();
-
-        return redirect()->route('showMenu',['id'=>auth()->user()->id]);
     }
-
-    // public function updateCart()
-    // {
-
-    // }
 
     public function checkout($id)
     {
@@ -98,7 +103,7 @@ class OrderController extends Controller
         $cart->order_id = $order->id;
         $cart->save();
 
-        return redirect()->route('showHistory');
+        return redirect()->route('showHistory',['id'=>auth()->user()->id]);
     }
 
 

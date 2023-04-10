@@ -69,7 +69,7 @@
                     </div>
                     <div class="modal-footer">
                         <div class="font-weight-bold mr-auto">Total : <span id="total{{$item->id}}">{{number_format($item->quantity*$item->price,2)}}</span> </div>
-                        <form action="{{route('addToCart',['id'=>auth()->user()->id]) }}" method="post">
+                        <form action="{{route('updateCart',['id'=>auth()->user()->id]) }}" method="post">
                             @csrf
                             <input type="hidden" name="quantity" id="post_quant{{$item->id}}" value="{{$item->quantity}}">
                             <input type="hidden" name="item_id" value="{{$item->id}}">
@@ -90,14 +90,16 @@
     <hr>
     @if(isset($cart))
     <h3 class="text-right mb-3">Total : {{number_format($cart->amount,2)}}</h3>
-    @endif
     <hr>
-    <form action="{{route('checkout',['id' => auth()->user()->id])}}" method="get">
+    <form action="{{route('checkout', ['id' => auth()->user()->id])}}" method="post">
         @csrf
         <div class="text-right">
             <input class="btn btn-primary mb-3" type="submit" value="Proceed Order">
         </div>
     </form>
+    @endif
+    
+   
 
 
 
