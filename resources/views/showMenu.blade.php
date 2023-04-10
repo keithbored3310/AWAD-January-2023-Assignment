@@ -15,7 +15,7 @@
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
       <a class="dropdown-item" href="{{ route('showMenu', ['id' => auth()->user()->id]) }}">
-        All Categoties
+        All Categories
       </a>
       @foreach ($category as $cat)
       <a class="dropdown-item" href="{{ route('showMenu', ['id' => auth()->user()->id, 'category_id' => $cat->id]) }}">

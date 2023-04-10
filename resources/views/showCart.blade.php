@@ -11,6 +11,8 @@
     <!-- cart item card -->
 
     <div class="mb-3">
+        @if(isset($cart))
+        @if($cart->items!=null)
         @foreach(json_decode($cart->items) as $item)
         <div class="mb-3">
             <div class="card shadow" style="border-radius: 15px;">
@@ -79,12 +81,19 @@
             </div>
         </div>
         @endforeach
+        @endif
+        @else
+        <div>No Item in Cart~</div>
+        @endif
 
     </div>
     <hr>
+    @if(isset($cart))
     <h3 class="text-right mb-3">Total : {{number_format($cart->amount,2)}}</h3>
+    @endif
     <hr>
-    <form action="{{route('checkout',['id' => auth()->user()->id])}}" method="post">
+    <form action="{{route('checkout',['id' => auth()->user()->id])}}" method="get">
+        @csrf
         <div class="text-right">
             <input class="btn btn-primary mb-3" type="submit" value="Proceed Order">
         </div>

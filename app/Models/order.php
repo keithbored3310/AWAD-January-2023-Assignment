@@ -9,8 +9,8 @@ use App\Models\Cart;
 class Order extends Model
 {
     use HasFactory;
-    protected $table = 'bobaorder';
-    protected $fillable = ['name', 'date', 'status', 'paid'];
+    protected $table = 'order';
+    protected $fillable = ['items', 'status', 'amount', 'user_id', 'order_id'];
 
     public function getCart(){
         return $this->hasOne(order::class);
