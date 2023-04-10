@@ -82,7 +82,10 @@ class RegisterController extends Controller
             'last_name' => $request->input('last_name'),
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
+        
         ]);
+
+        $user->assignRole('User');
 
         // redirect to the dashboard or the intended URL
         return redirect('login');
