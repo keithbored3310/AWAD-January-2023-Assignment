@@ -11,6 +11,7 @@ use App\Http\Controllers\OrderDeleteController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\MenuController;
 
 /*
 |--------------------------------------------------------------------------
@@ -123,6 +124,9 @@ Route::group(['middleware' => 'can:isAdmin'], function(){
     Route::view('/index', 'permissions.index');
 });
 
-
-
-
+Route::get('/master', [MenuController::class, 'index'])->name('menu.master');
+Route::get('/menuCreate', [MenuController::class, 'create'])->name('menu.create');
+Route::post('/menu', [MenuController::class, 'store'])->name('menu.store');
+Route::get('/menu/{menuId}/edit', [MenuController::class, 'edit'])->name('menu.editMenu');
+Route::put('/menu/{id}', [MenuController::class, 'update'])->name('menu.update');
+Route::delete('/menu/{id}', [MenuController::class, 'destroy'])->name('menu.destroy');
