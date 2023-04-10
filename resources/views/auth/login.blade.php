@@ -60,7 +60,7 @@
                                 </button>
                                 <a href="{{ route('register') }}">
                                     <button class="btn btn-primary btn-user btn-block">
-                                        Login
+                                        Register
                                     </button>
                                 </a>
                             </form>
