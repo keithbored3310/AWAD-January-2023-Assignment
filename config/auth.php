@@ -40,7 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
     ],
+    
+    
+    
 
     /*
     |--------------------------------------------------------------------------
@@ -64,7 +68,12 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
         ],
-
+    
+        'Staff' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\StaffMember::class,
+        ],
+    
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
@@ -93,6 +102,7 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
+        
     ],
 
     /*

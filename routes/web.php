@@ -93,6 +93,8 @@ Route::middleware('auth')->prefix('users')->name('users.')->group(function(){
 });
 
 
+
+
 Route::get('/insert', [orderInsertController::class, 'insertform']);
 Route::post('/create', [OrderInsertController::class, 'insert']);
 Route::get('/main',[OrderViewController::class,'index']);

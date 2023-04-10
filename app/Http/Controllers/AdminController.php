@@ -36,13 +36,12 @@ class AdminController extends Controller
      * List User 
      * @param Nill
      * @return Array $user
-     * @author Shani Singh
      */
     public function index()
 {
-    if (Gate::denies('view-user-list')) {
-       abort(403);
-    }
+   // if (Gate::denies('view-user-list')) {
+      // abort(403);
+    //}
    
     $users = User::with('roles')->paginate(10);
     return view('users.index', ['users' => $users]);
@@ -53,7 +52,6 @@ class AdminController extends Controller
      * Create User 
      * @param Nill
      * @return Array $user
-     * @author Shani Singh
      */
     public function create()
     {
@@ -67,7 +65,6 @@ class AdminController extends Controller
      * Store User
      * @param Request $request
      * @return View Users
-     * @author Shani Singh
      */
     public function store(Request $request)
 {
@@ -118,7 +115,6 @@ class AdminController extends Controller
      * Update Status Of User
      * @param Integer $status
      * @return List Page With Success
-     * @author Shani Singh
      */
     public function updateStatus($user_id, $status)
     {
@@ -157,7 +153,6 @@ class AdminController extends Controller
      * Edit User
      * @param Integer $user
      * @return Collection $user
-     * @author Shani Singh
      */
     public function edit(User $user)
     {
@@ -172,7 +167,6 @@ class AdminController extends Controller
      * Update User
      * @param Request $request, User $user
      * @return View Users
-     * @author Shani Singh
      */
     public function update(Request $request, User $user)
     {
@@ -220,7 +214,6 @@ class AdminController extends Controller
      * Delete User
      * @param User $user
      * @return Index Users
-     * @author Shani Singh
      */
     public function delete(User $user)
     {

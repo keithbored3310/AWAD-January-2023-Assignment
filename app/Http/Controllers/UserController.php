@@ -35,7 +35,6 @@ class UserController extends Controller
      * User Profile
      * @param Nill
      * @return View Profile
-     * @author Shani Singh
      */
     public function getProfile()
     {
@@ -46,7 +45,6 @@ class UserController extends Controller
      * Update Profile
      * @param $profileData
      * @return Boolean With Success Message
-     * @author Shani Singh
      */
     public function updateProfile(Request $request)
     {
@@ -83,7 +81,6 @@ class UserController extends Controller
      * Change Password
      * @param Old Password, New Password, Confirm New Password
      * @return Boolean With Success Message
-     * @author Shani Singh
      */
     public function changePassword(Request $request)
     {

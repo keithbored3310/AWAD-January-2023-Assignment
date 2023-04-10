@@ -1,13 +1,13 @@
 <ul class="navbar-nav bg-gradient-warning sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('showMenu',['id'=>auth()->user()->id])}}">
         <div class="sidebar-brand-icon">
         <!--<img src="{{ asset('images/icon.png') }}"style="width: 75px; height: 75px;" >-->
         </div>
         <div class="sidebar-brand-text mx-3">Boba Drinks</div>
     </a>
-
+    @unlessrole('User')
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
 
@@ -20,7 +20,9 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider">
+    
 
+  
     <!-- Heading -->
     <div class="sidebar-heading">
         Management
@@ -41,9 +43,11 @@
             </div>
         </div>
     </li>
+  
+    
       <!-- Divider -->
       <hr class="sidebar-divider">
-
+      
 <!-- Heading -->
 <div class="sidebar-heading">
     Orders
@@ -67,6 +71,7 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider">
+    @endunlessrole
 
     @hasrole('Admin')
         <!-- Heading -->
