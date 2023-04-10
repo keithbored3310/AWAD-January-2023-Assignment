@@ -10,7 +10,7 @@ use App\Http\Controllers\OrderUpdateController;
 use App\Http\Controllers\OrderDeleteController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
-
+use App\Http\Controllers\Auth\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
