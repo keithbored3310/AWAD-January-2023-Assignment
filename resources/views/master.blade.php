@@ -12,8 +12,8 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="card">
+                    <div><a href="{{ route('menu.create') }}" class="btn btn-primary float-right">Add Menu Item</a></div>
                     <div class="card-body">
-                        <div><a href="{{ route('menu.create') }}" class="btn btn-primary float-right">Add Menu Item</a></div>
                         <table class="table">
                             <thead>
                                 <tr>
@@ -36,7 +36,7 @@
                                         <td>{{ $menuItem->price }}</td>
                                         <td>{{ $menuItem->quantity }}</td>
                                         <td>
-                                        <a href="{{ route('menu.edit', $menuItem) }}" class="btn btn-sm btn-primary">Edit</a>
+                                        <a href="{{ route('menu.editMenu', $menuItem) }}" class="btn btn-sm btn-primary">Edit</a>
                                         <form action="{{ route('menu.destroy', $menuItem) }}" method="post" style="display: inline-block;">
                                         @csrf
                                         @method('DELETE')

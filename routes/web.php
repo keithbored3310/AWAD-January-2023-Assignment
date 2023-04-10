@@ -124,9 +124,20 @@ Route::group(['middleware' => 'can:isAdmin'], function(){
     Route::view('/index', 'permissions.index');
 });
 
+
+//For admin to perform CRUD on the menu and category in database
+//menu
 Route::get('/master', [MenuController::class, 'index'])->name('menu.master');
 Route::get('/menuCreate', [MenuController::class, 'create'])->name('menu.create');
 Route::post('/menu', [MenuController::class, 'store'])->name('menu.store');
 Route::get('/menu/{menuId}/edit', [MenuController::class, 'edit'])->name('menu.edit');
 Route::put('/menu/{id}', [MenuController::class, 'update'])->name('menu.update');
 Route::delete('/menu/{id}', [MenuController::class, 'destroy'])->name('menu.destroy');
+
+//category
+Route::get('/categoryMaster', [MenuController::class, 'categoryIndex'])->name('category.master');
+Route::get('/categoryCreate', [MenuController::class, 'categoryCreate'])->name('category.create');
+Route::post('/category', [MenuController::class, 'categoryStore'])->name('category.store');
+Route::get('/category/{id}/edit', [MenuController::class, 'categoryEdit'])->name('category.edit');
+Route::put('/category/{id}', [MenuController::class, 'categoryUpdate'])->name('category.update');
+Route::delete('/category/{id}', [MenuController::class, 'categoryDestroy'])->name('category.destroy');
