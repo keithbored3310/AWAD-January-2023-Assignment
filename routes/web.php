@@ -33,6 +33,7 @@ Route::get('/register', function () {
     return view('auth.register');
 })->name('register');
 
+Route::post('/register', [RegisterController::class, 'register']);
 
 Route::get('/home', [App\Http\Controllers\UserController::class, 'index'])->name('home');
 
