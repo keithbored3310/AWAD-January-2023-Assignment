@@ -11,6 +11,7 @@
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
 
+    @can('isAdmin')
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
         <a class="nav-link" href="{{ route('dashboard') }}">
@@ -98,6 +99,7 @@
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
     @endhasrole
+    @endcan
 
  <!-- Nav Item - Drink Menu -->
     <li class="nav-item active">
