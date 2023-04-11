@@ -28,8 +28,7 @@
                 <div class="card shadow" style="border-radius: 15px;">
                     <div class="row ">
                         <div class="col-md-4">
-                            <img src="your-image.jpg" class="card-img" alt="...">
-                        </div>
+                        <img class="card-img-top" src="{{ asset('images/' . $item->id . '.jpg') }}" alt="Card image cap">                        </div>
                         <div class="col-md-8">
                             <div class="card-body">
                                 <div class="row">
