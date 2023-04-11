@@ -29,10 +29,14 @@ class MenuController extends Controller
         'category_id' => 'required',
         'price' => 'required|numeric',
         'quantity' => 'required',
+        'images' => 'image|mimes:jpeg,png,jpg|max:2048',
     ], [
         'name.max' => 'The name field is only 50 character.',
         'description.max' => 'The description field is only 1000 character',
         'price.numeric' => 'The price field must be a numeric value.',
+        'images.image' => 'The image must be a valid image file.',
+        'images.mimes' => 'The image must be a file of type: jpeg, png, jpg.',
+        'images.max' => 'The image may not be greater than 2 MB.',
     ]);
         $menu = new Menu;
         $menu->name = $request->input('name');
@@ -40,6 +44,12 @@ class MenuController extends Controller
         $menu->category_id = $request->input('category_id');
         $menu->price = $request->input('price');
         $menu->quantity = $request->input('quantity');
+        if ($request->hasFile('images')) {
+            $image = $request->file('images');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('images'), $imageName);
+            $menu->images = $imageName;
+        }
         $menu->save();
         return redirect()->route('menu.master');
     }
@@ -59,10 +69,14 @@ class MenuController extends Controller
         'category_id' => 'required',
         'price' => 'required|numeric',
         'quantity' => 'required',
+        'images' => 'image|mimes:jpeg,png,jpg|max:2048',
     ], [
         'name.max' => 'The name field is only 50 character.',
         'description.max' => 'The description field is only 1000 character',
         'price.numeric' => 'The price field must be a numeric value.',
+        'images.image' => 'The image must be a valid image file.',
+        'images.mimes' => 'The image must be a file of type: jpeg, png, jpg.',
+        'images.max' => 'The image may not be greater than 2 MB.',
     ]);
         $menu = Menu::findOrFail($id);
         $menu->name = $request->input('name');
@@ -70,6 +84,21 @@ class MenuController extends Controller
         $menu->category_id = $request->input('category_id');
         $menu->price = $request->input('price');
         $menu->quantity = $request->input('quantity');
+        if ($request->hasFile('images')) {
+            // Delete old image file if exists
+            if ($menu->images) {
+                $oldImagePath = public_path('images/' . $menu->images);
+                if (file_exists($oldImagePath)) {
+                    unlink($oldImagePath);
+                }
+            }
+        
+            // Upload new image file
+            $image = $request->file('images');
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $image->move(public_path('images'), $imageName);
+            $menu->images = $imageName;
+        }
         $menu->save();
         return redirect()->route('menu.master');
     }

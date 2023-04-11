@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-header">Add Menu Item</div>
                     <div class="card-body">
-                        <form action="{{ route('menu.store') }}" method="post">
+                        <form action="{{ route('menu.store') }}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <label for="name">Name</label>
@@ -44,6 +44,10 @@
                             @error('quantity')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
+                            <div class="form-group">
+                                <label for="images">Image</label> <!-- updated input name to 'images' -->
+                                <input type="file" name="images" id="images" class="form-control">
+                            </div>
                             <button type="submit" class="btn btn-primary">Add</button>
                         </form>
                     </div>

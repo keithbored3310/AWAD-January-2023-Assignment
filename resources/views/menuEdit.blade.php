@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-header">Edit Menu Item</div>
                     <div class="card-body">
-                    <form method="POST" action="{{ route('menu.update', $menu->id) }}">
+                    <form method="POST" action="{{ route('menu.update', $menu->id) }}" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="form-group">
@@ -45,6 +45,11 @@
                         @error('quantity')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
+                        <div class="form-group">
+                            <label for="images">Images</label>
+                            <input type="file" name="images" id="images" class="form-control">
+                            <input type="hidden" name="old_images" value="{{ $menu->images }}"> <!-- Add a hidden input field to store the old image file name -->
+                        </div>
                         <button type="submit" class="btn btn-primary">Save Changes</button>
                     </form>
                 </div>

@@ -32,7 +32,7 @@
       <div class="col mb-5 clickable" data-itemid="{{ $item->id }}">
         <div class="card shadow-lg" style="width: 18rem;border-radius: 15px;" data-toggle="modal" data-target="#itemModal{{ $item->id }}">
           <div class="card-body">
-            <img class="card-img-top" style=" max-width: 100%;height: 200px; display: block; margin: 0 auto;" src="{{ asset('images/' . $item->id . '.jpg') }}" alt="Card image cap">
+            <img class="card-img-top" style=" max-width: 100%;height: 200px; display: block; margin: 0 auto;" src="{{ asset('images/' . $item->images) }}" alt="Card image cap">
             <h5 class="card-title">{{ $item->name }}</h5>
             <p class="card-text">{{ $item->description }}</p>
             <p class="card-text float-right font-weight-bold"> RM {{ $item->price }}</p>
@@ -54,7 +54,7 @@
             </div>
             <div class="modal-body">
               <div class="mb-2">
-                <img class="card-img-top" src="{{ asset('images/' . $item->id . '.jpg') }}" alt="Card image cap">
+                <img class="card-img-top" src="{{ asset('images/' . $item->images) }}" alt="Card image cap">
               </div>
               <div class="float-right font-weight-bold"> RM <span id="price{{ $item->id }}">{{ $item->price }}</span></div>
               <div class="mt-5">
