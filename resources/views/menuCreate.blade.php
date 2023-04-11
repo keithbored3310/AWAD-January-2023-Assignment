@@ -48,6 +48,9 @@
                                 <label for="images">Image</label> <!-- updated input name to 'images' -->
                                 <input type="file" name="images" id="images" class="form-control">
                             </div>
+                            @error('images')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
                             <button type="submit" class="btn btn-primary">Add</button>
                         </form>
                     </div>
