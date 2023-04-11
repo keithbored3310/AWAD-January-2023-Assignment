@@ -11,7 +11,7 @@
   <!-- categories filter -->
   <div class="dropdown">
     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    Categories
+      Categories
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
       <a class="dropdown-item" href="{{ route('showMenu', ['id' => auth()->user()->id]) }}">
@@ -32,6 +32,7 @@
       <div class="col mb-5 clickable" data-itemid="{{ $item->id }}">
         <div class="card shadow-lg" style="width: 18rem;border-radius: 15px;" data-toggle="modal" data-target="#itemModal{{ $item->id }}">
           <div class="card-body">
+            <img class="card-img-top" style=" max-width: 100%;height: 200px; display: block; margin: 0 auto;" src="{{ asset('images/' . $item->id . '.jpg') }}" alt="Card image cap">
             <h5 class="card-title">{{ $item->name }}</h5>
             <p class="card-text">{{ $item->description }}</p>
             <p class="card-text float-right font-weight-bold"> RM {{ $item->price }}</p>
@@ -115,7 +116,7 @@
     var selectedCategory = localStorage.getItem('selectedCategory');
     if (selectedCategory !== null) {
       $('#dropdownMenuButton').html(selectedCategory);
-    } 
+    }
     //store the selected category in the local storage
     $(".dropdown-item").on("click", function() {
       var selectedCategory = $(this).html();

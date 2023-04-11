@@ -18,7 +18,7 @@
             <div class="card shadow" style="border-radius: 15px;">
                 <div class="row ">
                     <div class="col-md-4">
-                        <img src="your-image.jpg" class="card-img" alt="...">
+                    <img class="card-img-top" src="{{ asset('images/' . $item->id . '.jpg') }}" alt="Card image cap">
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
@@ -30,8 +30,10 @@
                                     <i class="fas fa-edit float-right" style="font-size: 24px;"></i>
                                 </div>
                             </div>
+                            <p class="card-text">Single Price : RM {{$item->price}} </p>
                             <p class="card-text">Qty: {{$item->quantity}}</p>
-                            <p class="card-text">RM : {{$item->quantity*$item->price}}</p>
+                            <p class="card-text font-weight-bold">Total : RM {{$item->quantity*$item->price}}</p>
+                            
                         </div>
                     </div>
                 </div>
@@ -49,7 +51,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-2">
-                            <img class="card-img-top" src="" alt="Card image cap">
+                        <img class="card-img-top" src="{{ asset('images/' . $item->id . '.jpg') }}" alt="Card image cap">
                         </div>
                         <div class="float-right font-weight-bold"> RM <span id="price{{$item->id}}">{{$item->price}}</span></div>
                         <div class="mt-5">
@@ -68,7 +70,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <div class="font-weight-bold mr-auto">Total : <span id="total{{$item->id}}">{{number_format($item->quantity*$item->price,2)}}</span> </div>
+                        <div class="font-weight-bold mr-auto">Total : RM <span id="total{{$item->id}}">{{number_format($item->quantity*$item->price,2)}}</span> </div>
                         <form action="{{route('updateCart',['id'=>auth()->user()->id]) }}" method="post">
                             @csrf
                             <input type="hidden" name="quantity" id="post_quant{{$item->id}}" value="{{$item->quantity}}">
@@ -89,7 +91,7 @@
     </div>
     <hr>
     @if(isset($cart))
-    <h3 class="text-right mb-3">Total : {{number_format($cart->amount,2)}}</h3>
+    <h3 class="text-right mb-3">Total : RM {{number_format($cart->amount,2)}}</h3>
     <hr>
     <form action="{{route('checkout', ['id' => auth()->user()->id])}}" method="post">
         @csrf
