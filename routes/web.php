@@ -90,18 +90,13 @@ Route::middleware('auth')->prefix('users')->name('users.')->group(function(){
     Route::put('/update/{user}', [AdminController::class, 'update'])->name('update');
     Route::delete('/delete/{user}', [AdminController::class, 'delete'])->name('destroy');
     Route::get('/update/status/{user_id}/{status}', [AdminController::class, 'updateStatus'])->name('status');
-
-
     Route::get('/import-users', [AdminController::class, 'importUsers'])->name('import');
     Route::post('/upload-users', [AdminController::class, 'uploadUsers'])->name('upload');
-
     Route::get('export/', [AdminController::class, 'export'])->name('export');
-
 });
 
 
-
-
+//orders for staff edit
 Route::get('/insert', [orderInsertController::class, 'insertform']);
 Route::post('/create', [OrderInsertController::class, 'insert']);
 Route::get('/main',[OrderViewController::class,'index']);
@@ -110,10 +105,8 @@ Route::get('/edit/{id}',[OrderUpdateController::class,'show']);
 Route::post('/edit/{id}',[OrderUpdateController::class,'edit']);
 Route::get('/delete-records',[OrderDeleteController::class,'index']);
 Route::get('/delete/{id}',[OrderDeleteController::class,'destroy']);
-
 Route::put('/orders/{id}', [OrderViewController::class, 'complete'])->name('orders.update');
 Route::put('/orders/{order}/pending', [OrderViewController::class, 'markPending'])->name('orders.pending');
-
 Route::put('/orders/{id}/paid', [OrderViewController::class, 'markPaid'])->name('orders.paid');
 Route::put('/orders/{id}/unpaid',[OrderViewController::class, 'unpaid'])->name('orders.unpaid');
 
