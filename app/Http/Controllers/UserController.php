@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Menu;
+use App\Models\Cart;
+use App\Models\Category;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Rules\MatchOldPassword;
@@ -26,11 +28,28 @@ class UserController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
-    {
-        return view('home');
-    }
+    
 
+     public function index($id, $category_id = null)
+     {
+         // Check the user's role
+       
+     
+         if($category_id == null)
+         {
+             $menu = Menu::get();
+         }
+         else
+         {
+             $menu = Menu::where('category_id', $category_id)->get();
+         }
+     
+         $category=Category::get();
+         $cart = Cart::where('user_id', $id)->where('status', 'pending')->first();
+       
+         return view('showMenu', compact('menu', 'category', 'cart', 'id'));
+     }
+     
     /**
      * User Profile
      * @param Nill

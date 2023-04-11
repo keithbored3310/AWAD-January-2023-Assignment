@@ -36,7 +36,7 @@ Route::get('/register', function () {
 
 Route::post('/register', [RegisterController::class, 'register']);
 
-Route::get('/home', [App\Http\Controllers\UserController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\UserController::class, 'index'])->name('showMenu');
 
 //YS from here ->
 // HomeController
