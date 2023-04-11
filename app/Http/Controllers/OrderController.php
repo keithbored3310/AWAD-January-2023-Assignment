@@ -53,6 +53,7 @@ class OrderController extends Controller
             "images" => $item->images,
         );
         $price = $item->price * $request->quantity;
+        $delete = false;
 
         if($cart == null)
         {
@@ -66,27 +67,66 @@ class OrderController extends Controller
         }
         else
         {
-            $item_list = json_decode($cart->items);
-            $exists = 0;
-            foreach($item_list as $i)
-            {
-                if($i->id == $item->id)
+            if ($request->quantity == 0) {
+
+                $item_list = json_decode($cart->items,true);
+                if(count($item_list) == 1)
                 {
-                    $cart->amount = $cart->amount - ($i->price * $i->quantity) + $price;
-                    $i->quantity = $request->quantity;
-                    $exists = 1;
-                    break;
+                    $delete = true;
                 }
+                else
+                {
+                    $exists = 0;
+                    $count = 0;
+
+                    foreach($item_list as $i)
+                    {
+                        // dd($item_list);
+
+                        if($i['id'] == $item->id)
+                        {
+                            unset($item_list[$count]);
+                            $cart->amount = $cart->amount-($i['price'] * $i['quantity']);
+                            break;
+                        }
+                        $count++;
+                    }
+                }
+
             }
-            if($exists == 0)
+            else
             {
-                $cart->amount = $cart->amount+$price;
-                array_push( $item_list, $array);
-                // dd($item_list,$array);
+                $item_list = json_decode($cart->items);
+                $exists = 0;
+                foreach($item_list as $i)
+                {
+                    if($i->id == $item->id)
+                    {
+                        $cart->amount = $cart->amount - ($i->price * $i->quantity) + $price;
+                        $i->quantity = $request->quantity;
+                        $exists = 1;
+                        break;
+                    }
+                }
+                if($exists == 0)
+                {
+                    $cart->amount = $cart->amount+$price;
+                    array_push( $item_list, $array);
+                    // dd($item_list,$array);
+                }
+
             }
             $cart->items = json_encode($item_list);
+
         }
-        $cart->save();
+        if($delete == true)
+        {
+            $cart->delete();
+        }
+        else
+        {
+            $cart->save();
+        }
     }
 
     public function checkout($id)
