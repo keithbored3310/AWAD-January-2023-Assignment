@@ -8,19 +8,32 @@ use App\Models\Category;
 
 class MenuController extends Controller
 {
-    public function index()
+    //show all menus
+    public function menuIndex()
     {
         $menuItems = Menu::all();
-        return view('master', compact('menuItems'));
+        return view('menuMaster', compact('menuItems'));
     }
 
-    public function create()
+    public function menuCreate()
     {
-        return view('create');
+        return view('menuCreate');
     }
 
-    public function store(Request $request)
+    public function menuStore(Request $request)
     {
+    // Validate the form data
+    $request->validate([
+        'name' => 'required|max:50',
+        'description' => 'required|max:1000',
+        'category_id' => 'required',
+        'price' => 'required|numeric',
+        'quantity' => 'required',
+    ], [
+        'name.max' => 'The name field is only 50 character.',
+        'description.max' => 'The description field is only 1000 character',
+        'price.numeric' => 'The price field must be a numeric value.',
+    ]);
         $menu = new Menu;
         $menu->name = $request->input('name');
         $menu->description = $request->input('description');
@@ -31,14 +44,26 @@ class MenuController extends Controller
         return redirect()->route('menu.master');
     }
 
-    public function edit($id)
+    public function menuEdit($id)
     {
-        $menu = Menu::findOrFail($menuId);
-        return view('menu.editMenu', compact('menu'));
+        $menu = Menu::findOrFail($id);
+        return view('menuEdit', compact('menu'));
     }      
     
-    public function update(Request $request, $id)
+    public function menuUpdate(Request $request, $id)
     {
+    // Validate the form data
+    $request->validate([
+        'name' => 'required|max:50',
+        'description' => 'required|max:1000',
+        'category_id' => 'required',
+        'price' => 'required|numeric',
+        'quantity' => 'required',
+    ], [
+        'name.max' => 'The name field is only 50 character.',
+        'description.max' => 'The description field is only 1000 character',
+        'price.numeric' => 'The price field must be a numeric value.',
+    ]);
         $menu = Menu::findOrFail($id);
         $menu->name = $request->input('name');
         $menu->description = $request->input('description');
@@ -48,14 +73,14 @@ class MenuController extends Controller
         $menu->save();
         return redirect()->route('menu.master');
     }
-    
-    
-    public function destroy($id)
+
+    public function menuDestroy($id)
     {
         $menu = Menu::findOrFail($id);
         $menu->delete();
         return redirect()->route('menu.master');
     }
+
 
     // Show all categories
     public function categoryIndex()

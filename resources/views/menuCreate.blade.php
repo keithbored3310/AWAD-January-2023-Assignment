@@ -13,22 +13,37 @@
                                 <label for="name">Name</label>
                                 <input type="text" name="name" id="name" class="form-control" required>
                             </div>
+                            @error('name')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
                             <div class="form-group">
                                 <label for="description">Description</label>
                                 <input type="text" name="description" id="description" class="form-control" required>
                             </div>
+                            @error('description')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
                             <div class="form-group">
                                 <label for="category_id">Category</label>
                                 <input type="text" name="category_id" id="category_id" class="form-control" required>
                             </div>
+                            @error('category')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
                             <div class="form-group">
                                 <label for="price">Price</label>
-                                <input type="number" name="price" id="price" class="form-control" required>
+                                <input type="text" name="price" id="price" class="form-control" required>
                             </div>
+                            @error('price')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
                             <div class="form-group">
                                 <label for="quantity">Quantity</label>
                                 <input type="number" name="quantity" id="quantity" class="form-control" required>
                             </div>
+                            @error('quantity')
+                            <span class="text-danger">{{ $message }}</span>
+                            @enderror
                             <button type="submit" class="btn btn-primary">Add</button>
                         </form>
                     </div>
