@@ -28,7 +28,7 @@
                 <div class="card shadow" style="border-radius: 15px;">
                     <div class="row ">
                         <div class="col-md-4">
-                        <img class="card-img-top" src="{{ asset('images/' . $item->id . '.jpg') }}" alt="Card image cap"> 
+                        <img class="card-img-top" src="{{ asset('images/' . $item->images) }}" alt="Card image cap"> 
                                                <!--{{ asset('images/' . $item->images) }} this one is the code want to replace the src  -->
                         </div>
                         <div class="col-md-8">
