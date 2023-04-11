@@ -29,7 +29,7 @@ class MenuController extends Controller
         'category_id' => 'required',
         'price' => 'required|numeric',
         'quantity' => 'required',
-        'images' => 'image|mimes:jpeg,png,jpg|max:2048',
+        'images' => 'required|image|mimes:jpeg,png,jpg|max:2048',
     ], [
         'name.max' => 'The name field is only 50 character.',
         'description.max' => 'The description field is only 1000 character',
@@ -69,7 +69,7 @@ class MenuController extends Controller
         'category_id' => 'required',
         'price' => 'required|numeric',
         'quantity' => 'required',
-        'images' => 'image|mimes:jpeg,png,jpg|max:2048',
+        'images' => 'required|image|mimes:jpeg,png,jpg|max:2048',
     ], [
         'name.max' => 'The name field is only 50 character.',
         'description.max' => 'The description field is only 1000 character',
