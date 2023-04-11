@@ -14,11 +14,11 @@
       Categories
     </button>
     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      <a class="dropdown-item" href="{{ route('showMenu', ['id' => auth()->user()->id]) }}">
+      <a class="dropdown-item category" href="{{ route('showMenu', ['id' => auth()->user()->id]) }}">
         All Categories
       </a>
       @foreach ($category as $cat)
-      <a class="dropdown-item" href="{{ route('showMenu', ['id' => auth()->user()->id, 'category_id' => $cat->id]) }}">
+      <a class="dropdown-item category" href="{{ route('showMenu', ['id' => auth()->user()->id, 'category_id' => $cat->id]) }}">
         {{ $cat->name }}
       </a>
       @endforeach
@@ -116,9 +116,10 @@
     var selectedCategory = localStorage.getItem('selectedCategory');
     if (selectedCategory !== null) {
       $('#dropdownMenuButton').html(selectedCategory);
+      console.log(selectedCategory);
     }
     //store the selected category in the local storage
-    $(".dropdown-item").on("click", function() {
+    $(".category").on("click", function() {
       var selectedCategory = $(this).html();
       localStorage.setItem('selectedCategory', selectedCategory);
     });
