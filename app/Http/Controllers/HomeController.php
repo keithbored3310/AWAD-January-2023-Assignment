@@ -66,12 +66,6 @@ class HomeController extends Controller
     //     return view('showMenu',)->with('menu', $menu)->with('category',$category)->with('cart',$cart);
     // }
 
-    public function show($id)
-    {
-        $menu = Menu::find($id);
-        $imagePath = Storage::disk('local')->url('menu/' . $menu->id . '.jpg');
 
-        return view('menu.show', compact('menu', 'imagePath'));
-    }
 
 }

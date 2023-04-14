@@ -54,7 +54,7 @@
             </div>
             <div class="modal-body">
               <div class="mb-2">
-                <img class="card-img-top" src="{{ asset('images/' . $item->images) }}" alt="Card image cap">
+                <img class="card-img-top" style=" max-width: 100%;height: 300px; display: block; margin: 0 auto;" src="{{ asset('images/' . $item->images) }}" alt="Card image cap">
               </div>
               <div class="float-right font-weight-bold"> RM <span id="price{{ $item->id }}">{{ $item->price }}</span></div>
               <div class="mt-5">
